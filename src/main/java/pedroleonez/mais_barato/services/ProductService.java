@@ -80,5 +80,20 @@ public class ProductService {
                 .toList();
     }
 
+    // get product by id method
+    public ProductDTO getProductById(Long id) {
+        ProductModel productModel = productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException("Product not found."));
+        
+        return new ProductDTO(
+                productModel.getId(),
+                productModel.getName(),
+                productModel.getPrice1(),
+                productModel.getSize1(),
+                productModel.getPrice2(),
+                productModel.getSize2(),
+                productModel.getUnit()
+        );
+    }
 
 }
