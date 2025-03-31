@@ -33,14 +33,19 @@ public class ProductModel implements Serializable {
     @Column(nullable = false, length = 100)
     private String name;
 
+    @Column(nullable = true, precision = 10, scale = 2)
     private BigDecimal price1;
 
+    @Column(nullable = true, precision = 10, scale = 2)
     private BigDecimal size1;
 
+    @Column(nullable = true, precision = 10, scale = 2)
     private BigDecimal price2;
     
+    @Column(nullable = true, precision = 10, scale = 2)
     private BigDecimal size2;
 
+    @Column(nullable = true, length = 20)
     private String unit;
 
 }
