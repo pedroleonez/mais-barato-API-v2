@@ -8,8 +8,7 @@ public record ProductDTO(
         BigDecimal price1,
         BigDecimal size1,
         BigDecimal price2,
-        BigDecimal size2,
-        String unit
+        BigDecimal size2
 ) {
 
 }

@@ -44,8 +44,4 @@ public class ProductModel implements Serializable {
     
     @Column(nullable = true, precision = 10, scale = 2)
     private BigDecimal size2;
-
-    @Column(nullable = true, length = 20)
-    private String unit;
-
 }
