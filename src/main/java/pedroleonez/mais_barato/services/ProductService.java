@@ -30,7 +30,6 @@ public class ProductService {
         productModel.setSize1(dto.size1());
         productModel.setPrice2(dto.price2());
         productModel.setSize2(dto.size2());
-        productModel.setUnit(dto.unit());
         
         return productModel;
     }
@@ -74,8 +73,7 @@ public class ProductService {
                         product.getPrice1(),
                         product.getSize1(),
                         product.getPrice2(),
-                        product.getSize2(),
-                        product.getUnit()
+                        product.getSize2()
                 ))
                 .toList();
     }
@@ -91,9 +89,37 @@ public class ProductService {
                 productModel.getPrice1(),
                 productModel.getSize1(),
                 productModel.getPrice2(),
-                productModel.getSize2(),
-                productModel.getUnit()
+                productModel.getSize2()
         );
+    }
+
+    // compare product method: get best option
+    public String getBestOption(Long id) {
+        ProductModel product = productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException("Product not found with id: " + id));
+
+        // verifica se os preços e tamanhos foram informados
+        if (product.getPrice1() == null || product.getSize1() == null ||
+                product.getPrice2() == null || product.getSize2() == null) {
+            throw new InvalidProductDataException("Not enough information to compare.");
+        }
+
+        // calculates the price per unit
+        double unitPrice1 = product.getPrice1().doubleValue() / product.getSize1().doubleValue();
+        double unitPrice2 = product.getPrice2().doubleValue() / product.getSize2().doubleValue();
+
+        // determines the best option and the percentage savings
+        if (unitPrice1 < unitPrice2) {
+            double savings = ((unitPrice2 - unitPrice1) / unitPrice2) * 100;
+            return String.format("The first option (%.2f) is %.2f%% more economical.",
+                    product.getSize1(), savings);
+        } else if (unitPrice1 > unitPrice2) {
+            double savings = ((unitPrice1 - unitPrice2) / unitPrice1) * 100;
+            return String.format("The second option (%.2f) is %.2f%% more economical.",
+                    product.getSize2(), savings);
+        } else {
+            return "Both options have the same cost per unit.";
+        }
     }
 
 }
